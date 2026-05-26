@@ -4,12 +4,19 @@ import {
   loginPage,
 } from './pages/login.js';
 
+import {
+  dashboardPage,
+} from './pages/dashboard.js';
+
 export function router() {
 
   switch (state.page) {
 
     case 'login':
       return loginPage();
+
+    case 'dashboard':
+      return dashboardPage();
 
     default:
       return `
