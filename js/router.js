@@ -8,6 +8,10 @@ import {
   dashboardPage,
 } from './pages/dashboard.js';
 
+import {
+  registerPage,
+} from './pages/register.js';
+
 export function router() {
 
   switch (state.page) {
@@ -17,6 +21,9 @@ export function router() {
 
     case 'dashboard':
       return dashboardPage();
+      
+    case 'register':
+      return registerPage();
 
     default:
       return `

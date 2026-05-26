@@ -21,6 +21,10 @@ function setupEvents() {
   setupLogin();
 
   setupLogout();
+
+  setupNavigation();
+
+  setupRegister();
 }
 
 function setupLogin() {
@@ -54,11 +58,14 @@ function setupLogin() {
           'POST',
           {
             email,
-            password,
+            senha: password,
           }
         );
 
+        console.log(response);
+
         if (!response.ok) {
+
           alert(
             response.data?.message
             || 'Erro ao fazer login.'
@@ -109,6 +116,129 @@ function setupLogout() {
       });
 
       render();
+    }
+  );
+}
+
+function setupNavigation() {
+
+  const goRegister =
+    document.getElementById(
+      'go-register'
+    );
+
+  if (goRegister) {
+
+    goRegister.addEventListener(
+      'click',
+      () => {
+
+        setState({
+          page: 'register',
+        });
+
+        render();
+      }
+    );
+  }
+
+  const goLogin =
+    document.getElementById(
+      'go-login'
+    );
+
+  if (goLogin) {
+
+    goLogin.addEventListener(
+      'click',
+      () => {
+
+        setState({
+          page: 'login',
+        });
+
+        render();
+      }
+    );
+  }
+}
+
+function setupRegister() {
+
+  const form =
+    document.getElementById(
+      'register-form'
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const name =
+        formData.get('name');
+
+      const email =
+        formData.get('email');
+
+      const password =
+        formData.get('password');
+
+      console.log({
+        nome: name,
+        email,
+        senha: password,
+      });
+
+      try {
+
+        const response = await api(
+          '/api/v1/auth/register',
+          'POST',
+          {
+            nome: name,
+            email,
+            senha: password,
+          }
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+
+          alert(
+            response.data?.message
+            || 'Erro ao cadastrar.'
+          );
+
+          return;
+        }
+
+        alert(
+          'Conta criada com sucesso.'
+        );
+
+        setState({
+          email,
+          page: 'login',
+        });
+
+        render();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          'Erro interno.'
+        );
+      }
     }
   );
 }

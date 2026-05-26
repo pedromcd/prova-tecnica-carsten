@@ -1,15 +1,26 @@
-export function loginPage() {
+export function registerPage() {
 
   return `
     <div class="card">
 
-      <h1>Entrar</h1>
+      <h1>Criar conta</h1>
 
       <p class="subtitle">
-        Faça login para continuar.
+        Preencha os dados abaixo.
       </p>
 
-      <form id="login-form">
+      <form id="register-form">
+
+        <div class="field">
+          <label>Nome</label>
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Seu nome"
+            required
+          />
+        </div>
 
         <div class="field">
           <label>E-mail</label>
@@ -28,7 +39,7 @@ export function loginPage() {
           <input
             type="password"
             name="password"
-            placeholder="••••••••"
+            placeholder="Mínimo 8 caracteres"
             required
           />
         </div>
@@ -37,16 +48,16 @@ export function loginPage() {
           type="submit"
           class="primary-btn"
         >
-          Entrar
+          Criar conta
         </button>
 
       </form>
 
       <button
-        id="go-register"
+        id="go-login"
         class="secondary-btn"
       >
-        Criar conta
+        Voltar para login
       </button>
 
     </div>
