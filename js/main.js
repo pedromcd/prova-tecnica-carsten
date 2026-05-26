@@ -1,13 +1,24 @@
+import { api } from './api.js';
+
 const app = document.getElementById('app');
 
-function render() {
+async function render() {
+
   app.innerHTML = `
     <div class="card">
-      <h1>Carsten Auth</h1>
+      <h1>Testando API...</h1>
+    </div>
+  `;
 
-      <p>
-        Aplicação iniciada com sucesso.
-      </p>
+  const response = await api('/health');
+
+  app.innerHTML = `
+    <div class="card">
+      <h1>Status da API</h1>
+
+      <pre>
+${JSON.stringify(response.data, null, 2)}
+      </pre>
     </div>
   `;
 }
