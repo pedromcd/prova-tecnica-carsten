@@ -12,6 +12,14 @@ import {
   registerPage,
 } from './pages/register.js';
 
+import {
+  sendCodePage,
+} from './pages/send-code.js';
+
+import {
+  validateCodePage,
+} from './pages/validate-code.js';
+
 export function router() {
 
   switch (state.page) {
@@ -24,6 +32,12 @@ export function router() {
       
     case 'register':
       return registerPage();
+
+    case 'send-code':
+      return sendCodePage();
+
+    case 'validate-code':
+      return validateCodePage();
 
     default:
       return `

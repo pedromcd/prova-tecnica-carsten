@@ -25,6 +25,11 @@ function setupEvents() {
   setupNavigation();
 
   setupRegister();
+
+  setupSendCode();
+
+  setupValidateCode();
+
 }
 
 function setupLogin() {
@@ -226,6 +231,138 @@ function setupRegister() {
 
         setState({
           email,
+          page: 'send-code',
+        });
+
+        render();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          'Erro interno.'
+        );
+      }
+    }
+  );
+}
+
+function setupSendCode() {
+
+  const form =
+    document.getElementById(
+      'send-code-form'
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const email =
+        formData.get('email');
+
+      try {
+
+        const response = await api(
+          '/api/v1/auth/send-code',
+          'POST',
+          {
+            email,
+          }
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+
+          alert(
+            response.data?.message
+            || 'Erro ao enviar código.'
+          );
+
+          return;
+        }
+
+        alert(
+          'Código enviado com sucesso.'
+        );
+
+        setState({
+          email,
+          page: 'validate-code',
+        });
+
+        render();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          'Erro interno.'
+        );
+      }
+    }
+  );
+}
+
+function setupValidateCode() {
+
+  const form =
+    document.getElementById(
+      'validate-code-form'
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const code =
+        formData.get('code');
+
+      try {
+
+        const response = await api(
+          '/api/v1/auth/validate-code',
+          'POST',
+          {
+            email: state.email,
+            codigo: code,
+          }
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+
+          alert(
+            response.data?.message
+            || 'Código inválido.'
+          );
+
+          return;
+        }
+
+        alert(
+          'E-mail validado com sucesso.'
+        );
+
+        setState({
           page: 'login',
         });
 
