@@ -20,6 +20,14 @@ import {
   validateCodePage,
 } from './pages/validate-code.js';
 
+import {
+  forgotPasswordPage,
+} from './pages/forgot-password.js';
+
+import {
+  resetPasswordPage,
+} from './pages/reset-password.js';
+
 export function router() {
 
   switch (state.page) {
@@ -38,6 +46,12 @@ export function router() {
 
     case 'validate-code':
       return validateCodePage();
+
+    case 'forgot-password':
+      return forgotPasswordPage();
+
+    case 'reset-password':
+      return resetPasswordPage();
 
     default:
       return `

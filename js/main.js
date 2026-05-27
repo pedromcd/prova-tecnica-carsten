@@ -30,6 +30,10 @@ function setupEvents() {
 
   setupValidateCode();
 
+  setupForgotPassword();
+
+  setupResetPassword();
+
 }
 
 function setupLogin() {
@@ -161,6 +165,26 @@ function setupNavigation() {
 
         setState({
           page: 'login',
+        });
+
+        render();
+      }
+    );
+  }
+
+  const goForgot =
+    document.getElementById(
+      'go-forgot'
+   );
+
+  if (goForgot) {
+
+    goForgot.addEventListener(
+      'click',
+      () => {
+
+        setState({
+          page: 'forgot-password',
         });
 
         render();
@@ -429,6 +453,142 @@ async function loadUser() {
       'Erro ao carregar usuário.'
     );
   }
+}
+
+function setupForgotPassword() {
+
+  const form =
+    document.getElementById(
+      'forgot-password-form'
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const email =
+        formData.get('email');
+
+      try {
+
+        const response = await api(
+          '/api/v1/auth/forgot-password',
+          'POST',
+          {
+            email,
+          }
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+
+          alert(
+            response.data?.message
+            || 'Erro ao enviar código.'
+          );
+
+          return;
+        }
+
+        alert(
+          'Código enviado.'
+        );
+
+        setState({
+          email,
+          page: 'reset-password',
+        });
+
+        render();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          'Erro interno.'
+        );
+      }
+    }
+  );
+}
+
+function setupResetPassword() {
+
+  const form =
+    document.getElementById(
+      'reset-password-form'
+    );
+
+  if (!form) return;
+
+  form.addEventListener(
+    'submit',
+    async (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const code =
+        formData.get('code');
+
+      const password =
+        formData.get('password');
+
+      try {
+
+        const response = await api(
+          '/api/v1/auth/reset-password',
+          'POST',
+          {
+            email: state.email,
+            codigo: code,
+            senha: password,
+          }
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+
+          alert(
+            response.data?.message
+            || 'Erro ao redefinir senha.'
+          );
+
+          return;
+        }
+
+        alert(
+          'Senha redefinida com sucesso.'
+        );
+
+        setState({
+          page: 'login',
+        });
+
+        render();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          'Erro interno.'
+        );
+      }
+    }
+  );
 }
 
 if (state.jwt) {

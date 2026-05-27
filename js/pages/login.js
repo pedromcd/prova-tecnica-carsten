@@ -43,6 +43,13 @@ export function loginPage() {
       </form>
 
       <button
+        id="go-forgot"
+        class="secondary-btn"
+      >
+        Esqueci minha senha
+      </button>
+
+      <button
         id="go-register"
         class="secondary-btn"
       >
