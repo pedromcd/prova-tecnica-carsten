@@ -85,8 +85,9 @@ function setupLogin() {
 
         setState({
           jwt,
-          page: 'dashboard',
         });
+
+        await loadUser();
 
         render();
 
@@ -380,11 +381,61 @@ function setupValidateCode() {
   );
 }
 
-if (state.jwt) {
+async function loadUser() {
 
-  setState({
-    page: 'dashboard',
-  });
+  try {
+
+    const response = await api(
+      '/api/v1/user/me',
+      'GET',
+      null,
+      state.jwt
+    );
+
+    console.log(response);
+
+    if (!response.ok) {
+
+      alert(
+        'Sessão inválida.'
+      );
+
+      setState({
+        jwt: null,
+        page: 'login',
+      });
+
+      render();
+
+      return;
+    }
+
+    const user =
+      response.data?.data
+      || response.data;
+
+    setState({
+      user,
+      page: 'dashboard',
+    });
+
+    render();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      'Erro ao carregar usuário.'
+    );
+  }
 }
 
-render();
+if (state.jwt) {
+
+  loadUser();
+
+} else {
+
+  render();
+}

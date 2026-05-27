@@ -28,7 +28,7 @@ export function router() {
       return loginPage();
 
     case 'dashboard':
-      return dashboardPage();
+      return dashboardPage(state.user);
       
     case 'register':
       return registerPage();
