@@ -163,3 +163,25 @@ footer {
   border-color: #c8102e;
   color: #c8102e;
 }
+
+.message {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.message.error {
+  background: #ffe5e5;
+  color: #b00020;
+}
+
+.message.success {
+  background: #e7f8ec;
+  color: #18794e;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

@@ -7,6 +7,12 @@ import {
   setState,
 } from './state.js';
 
+import {
+  showMessage,
+  removeMessage,
+  setLoading,
+} from './ui.js';
+
 const app = document.getElementById('app');
 
 function render() {
@@ -45,11 +51,18 @@ function setupLogin() {
 
   if (!form) return;
 
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
   form.addEventListener(
     'submit',
     async (event) => {
 
       event.preventDefault();
+
+      removeMessage(form);
 
       const formData =
         new FormData(form);
@@ -61,6 +74,11 @@ function setupLogin() {
         formData.get('password');
 
       try {
+
+        setLoading(
+          submitButton,
+          true
+        );
 
         const response = await api(
           '/api/v1/auth/login',
@@ -75,13 +93,20 @@ function setupLogin() {
 
         if (!response.ok) {
 
-          alert(
+          showMessage(
+            form,
             response.data?.message
             || 'Erro ao fazer login.'
           );
 
           return;
         }
+
+        showMessage(
+          form,
+          'Login realizado com sucesso.',
+          'success'
+        );
 
         const jwt =
           response.data?.data?.token
@@ -91,16 +116,29 @@ function setupLogin() {
           jwt,
         });
 
-        await loadUser();
+        setTimeout(
+          async () => {
 
-        render();
+            await loadUser();
+
+          },
+          800
+        );
 
       } catch (error) {
 
         console.error(error);
 
-        alert(
+        showMessage(
+          form,
           'Erro interno.'
+        );
+
+      } finally {
+
+        setLoading(
+          submitButton,
+          false
         );
       }
     }
