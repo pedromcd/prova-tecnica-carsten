@@ -36,7 +36,16 @@ export function router() {
       return loginPage();
 
     case 'dashboard':
-      return dashboardPage(state.user);
+       if (!state.jwt) {
+
+        setState({
+          page: 'login',
+        });
+
+        return loginPage();
+      }
+
+  return dashboardPage(state.user);
       
     case 'register':
       return registerPage();

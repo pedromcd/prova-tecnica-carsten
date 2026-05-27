@@ -240,11 +240,18 @@ function setupRegister() {
 
   if (!form) return;
 
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
   form.addEventListener(
     'submit',
     async (event) => {
 
       event.preventDefault();
+
+      removeMessage(form);
 
       const formData =
         new FormData(form);
@@ -258,13 +265,22 @@ function setupRegister() {
       const password =
         formData.get('password');
 
-      console.log({
-        nome: name,
-        email,
-        senha: password,
-      });
+      if (password.length < 8) {
+
+        showMessage(
+          form,
+          'A senha deve ter no mínimo 8 caracteres.'
+        );
+
+        return;
+      }
 
       try {
+
+        setLoading(
+          submitButton,
+          true
+        );
 
         const response = await api(
           '/api/v1/auth/register',
@@ -280,7 +296,8 @@ function setupRegister() {
 
         if (!response.ok) {
 
-          alert(
+          showMessage(
+            form,
             response.data?.message
             || 'Erro ao cadastrar.'
           );
@@ -288,8 +305,10 @@ function setupRegister() {
           return;
         }
 
-        alert(
-          'Conta criada com sucesso.'
+        showMessage(
+          form,
+          'Conta criada com sucesso.',
+          'success'
         );
 
         setState({
@@ -297,14 +316,29 @@ function setupRegister() {
           page: 'send-code',
         });
 
-        render();
+        setTimeout(
+          () => {
+
+            render();
+
+          },
+          800
+        );
 
       } catch (error) {
 
         console.error(error);
 
-        alert(
+        showMessage(
+          form,
           'Erro interno.'
+        );
+
+      } finally {
+
+        setLoading(
+          submitButton,
+          false
         );
       }
     }
@@ -359,8 +393,10 @@ function setupSendCode() {
         );
 
         setState({
-          email,
-          page: 'validate-code',
+          jwt: null,
+          user: null,
+          email: '',
+          page: 'login',
         });
 
         render();
