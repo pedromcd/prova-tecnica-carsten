@@ -477,17 +477,22 @@ function setupValidateCode() {
 
         if (!response.ok) {
 
-          alert(
-            response.data?.message
-            || 'Código inválido.'
-          );
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text:
+              response.data?.message
+              || 'Código inválido.',
+          });
 
           return;
         }
 
-        alert(
-          'E-mail validado com sucesso.'
-        );
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: 'E-mail validado com sucesso.',
+        });
 
         setState({
           page: 'login',
@@ -499,9 +504,11 @@ function setupValidateCode() {
 
         console.error(error);
 
-        alert(
-          'Erro interno.'
-        );
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Erro interno.',
+        });
       }
     }
   );
@@ -522,9 +529,11 @@ async function loadUser() {
 
     if (!response.ok) {
 
-      alert(
-        'Sessão inválida.'
-      );
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sessão expirada',
+        text: 'Sessão inválida.',
+      });
 
       setState({
         jwt: null,
@@ -551,9 +560,11 @@ async function loadUser() {
 
     console.error(error);
 
-    alert(
-      'Erro ao carregar usuário.'
-    );
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro',
+      text: 'Erro ao carregar usuário.',
+    });
   }
 }
 
@@ -592,17 +603,22 @@ function setupForgotPassword() {
 
         if (!response.ok) {
 
-          alert(
-            response.data?.message
-            || 'Erro ao enviar código.'
-          );
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text:
+              response.data?.message
+              || 'Erro ao enviar código.',
+          });
 
           return;
         }
 
-        alert(
-          'Código enviado.'
-        );
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: 'Código enviado.',
+        });
 
         setState({
           email,
@@ -615,9 +631,11 @@ function setupForgotPassword() {
 
         console.error(error);
 
-        alert(
-          'Erro interno.'
-        );
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Erro interno.',
+        });
       }
     }
   );
@@ -663,17 +681,22 @@ function setupResetPassword() {
 
         if (!response.ok) {
 
-          alert(
-            response.data?.message
-            || 'Erro ao redefinir senha.'
-          );
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text:
+              response.data?.message
+              || 'Erro ao redefinir senha.',
+          });
 
           return;
         }
 
-        alert(
-          'Senha redefinida com sucesso.'
-        );
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: 'Senha redefinida com sucesso.',
+        });
 
         setState({
           page: 'login',
@@ -685,9 +708,11 @@ function setupResetPassword() {
 
         console.error(error);
 
-        alert(
-          'Erro interno.'
-        );
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Erro interno.'
+        });
       }
     }
   );
