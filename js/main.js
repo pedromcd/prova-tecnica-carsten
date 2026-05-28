@@ -354,11 +354,18 @@ function setupSendCode() {
 
   if (!form) return;
 
+  const submitButton =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
   form.addEventListener(
     'submit',
     async (event) => {
 
       event.preventDefault();
+
+      removeMessage(form);
 
       const formData =
         new FormData(form);
@@ -367,6 +374,11 @@ function setupSendCode() {
         formData.get('email');
 
       try {
+
+        setLoading(
+          submitButton,
+          true
+        );
 
         const response = await api(
           '/api/v1/auth/send-code',
@@ -380,7 +392,8 @@ function setupSendCode() {
 
         if (!response.ok) {
 
-          alert(
+          showMessage(
+            form,
             response.data?.message
             || 'Erro ao enviar código.'
           );
@@ -388,25 +401,40 @@ function setupSendCode() {
           return;
         }
 
-        alert(
-          'Código enviado com sucesso.'
+        showMessage(
+          form,
+          'Código enviado com sucesso.',
+          'success'
         );
 
         setState({
-          jwt: null,
-          user: null,
-          email: '',
-          page: 'login',
+          email,
+          page: 'validate-code',
         });
 
-        render();
+        setTimeout(
+          () => {
+
+            render();
+
+          },
+          800
+        );
 
       } catch (error) {
 
         console.error(error);
 
-        alert(
+        showMessage(
+          form,
           'Erro interno.'
+        );
+
+      } finally {
+
+        setLoading(
+          submitButton,
+          false
         );
       }
     }

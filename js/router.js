@@ -62,6 +62,30 @@ export function router() {
     case 'reset-password':
       return resetPasswordPage();
 
+    case 'validate-code':
+      return `
+        <div class="card">
+          <h1>Confirmar código</h1>
+
+          <form id="validate-form">
+
+            <label>Código</label>
+
+            <input
+              type="text"
+              name="codigo"
+              placeholder="123456"
+              required
+            >
+
+            <button type="submit">
+              Validar código
+            </button>
+
+          </form>
+        </div>
+      `;  
+
     default:
       return `
         <div class="card">
