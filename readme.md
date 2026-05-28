@@ -185,6 +185,17 @@ Tratamento para:
 
 ---
 
+# Configuração da API
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+VITE_API_URL=https://api.carsten.com.br/api/prova
+VITE_API_TOKEN=seu_token_pk
+```
+
+Substitua `seu_token_pk` pelo token fornecido pela empresa avaliadora.
+
 # Como executar o projeto
 
 ## 1. Clonar o repositório
@@ -225,15 +236,6 @@ Depois:
 
 ```txt
 Open with Live Server
-```
-
----
-
-# Configuração da API
-
-```env
-VITE_API_URL=https://api.carsten.com.br/api/prova
-VITE_API_TOKEN=pk_d1901a1f923d86c87a01b36420f295b20213c70961dd843c
 ```
 
 ---
