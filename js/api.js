@@ -1,7 +1,8 @@
-import {
-  API_BASE,
-  PK_TOKEN,
-} from './config.js';
+const API_BASE =
+  import.meta.env.VITE_API_URL;
+
+const PK_TOKEN =
+  import.meta.env.VITE_API_TOKEN;
 
 export async function api(
   endpoint,
