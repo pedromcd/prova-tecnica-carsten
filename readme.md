@@ -187,15 +187,33 @@ Tratamento para:
 
 # Configuração da API
 
-Crie um arquivo `.env` na raiz do projeto:
+Crie um arquivo:
 
-```env
-VITE_API_URL=https://api.carsten.com.br/api/prova
-VITE_API_TOKEN=seu_token_pk
+```txt
+js/config.js
 ```
 
-Substitua `seu_token_pk` pelo token fornecido pela empresa avaliadora.
+Utilizando como base o arquivo:
 
+```txt
+js/config.example.js
+```
+
+Depois configure:
+
+```js
+export const API_BASE =
+  'https://api.carsten.com.br/api/prova';
+
+export const PK_TOKEN =
+  'seu_token_pk';
+```
+
+Substitua:
+
+```txt
+seu_token_pk
+```
 # Como executar o projeto
 
 ## 1. Clonar o repositório
